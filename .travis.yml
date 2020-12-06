@@ -3,6 +3,10 @@ language: generic
 services:
   - docker
 
+stages:
+  - build
+  - test
+
 env:
   DOCKER_COMPOSE_VERSION: 1.27.4
 
@@ -13,12 +17,6 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
 
-  # Update Docker
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-
 jobs:
   - stage: build
   - script: 
@@ -27,4 +25,5 @@ jobs:
   - stage: test
   - script: 
     - docker-compose run --rm client yarn run test:unit
+  - script: 
     - docker-compose run --rm api bundle exec rails test
