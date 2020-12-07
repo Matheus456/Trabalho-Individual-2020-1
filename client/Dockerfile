@@ -1,16 +1,13 @@
-
 FROM node:latest
 
-RUN mkdir -p /client-app
+RUN mkdir -p /app-client
+WORKDIR /app-client
 
-WORKDIR /client-app
-
-COPY package.json /client-app
-
-COPY yarn.lock /client-app
+COPY package.json /app-client
+COPY yarn.lock /app-client
 
 RUN yarn
 
-COPY . /client-app
+COPY . /app-client
 
 CMD ["yarn", "dev"]

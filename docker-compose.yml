@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3"
 
 services:
   client:
@@ -6,7 +6,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./client:/client-app
+      - ./client:/app-client
 
   api:
     build: ./api
