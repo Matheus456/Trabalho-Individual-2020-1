@@ -1,6 +1,5 @@
 # Trabalho Final - GCES - 2020/1
 [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=Matheus456_Trabalho-Individual-2020-1)](https://sonarcloud.io/dashboard?id=Matheus456_Trabalho-Individual-2020-1)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Matheus456_Trabalho-Individual-2020-1&metric=alert_status)](https://sonarcloud.io/dashboard?id=Matheus456_Trabalho-Individual-2020-1)
 
 ## Aluno: Matheus Roberto
 ## Matrícula: 130126721
