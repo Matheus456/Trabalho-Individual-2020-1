@@ -1,42 +1,43 @@
-# Trabalho Individual - GCES - 2020/1
+# Trabalho Final - GCES - 2020/1
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=Matheus456_Trabalho-Individual-2020-1)](https://sonarcloud.io/dashboard?id=Matheus456_Trabalho-Individual-2020-1)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Matheus456_Trabalho-Individual-2020-1&metric=alert_status)](https://sonarcloud.io/dashboard?id=Matheus456_Trabalho-Individual-2020-1)
 
-A Gestão de Configuração de Software é parte fundamental no curso de GCES, e dominar os conhecimentos de configuração de ambiente, containerização, virtualização, integração e deploy contínuo tem se tornado cada vez mais necessário para ingressar no mercado de trabalho.
-
-Para exercitar estes conhecimentos, você deverá aplicar os conceitos estudados ao longo da disciplina no produto de software contido neste repositório.
-
-O sistema se trata de uma aplicação Web, cuja funcionalidade consiste na pesquisa e exibição de perfis de usuários do GitHub, que é composta de:
-
-- Front End escrito em Javascript, utilizando os frameworks Vue.JS e Quasar;
-- Back End escrito em Ruby on Rails, utilizado em modo API;
-- Banco de Dados PostgreSQL;
-
-Para executar a aplicação na sua máquina, basta seguir o passo-a-passo descrito no arquivo [Descrição e Instruções](Descricao-e-Instrucoes.md).
-
-## Critérios de avaliação
+## Aluno: Matheus Roberto
+## Matrícula: 130126721
 
 ### 1. Containerização
 
-A aplicação deverá ter seu ambiente completamente containerizado. Desta forma, cada subsistema (Front End, Back End e Banco de Dados) deverá ser isolado em um container individual.
-
-Deverá ser utilizado um orquestrador para gerenciar comunicação entre os containers, o uso de credenciais, networks, volumes, entre outras configurações necessárias para a correta execução da aplicação.
-
-Para realizar esta parte do trabalho, recomenda-se a utilização das ferramentas:
-
-- Docker versão 17.04.0+
-- Docker Compose com sintaxe na versão 3.2+
+A containerização foi feita utilizando a ferramenta docker, tendo um container para cada subsistema(Frontend, Backend e database). E para orquestrar os containers foi utilizado o docker-compose, no qual foi feita a comunicação entre o backend e o banco de dados e a configuração de portas, volumes e do próprio banco de dados.
 
 ### 2. Integração contínua
 
-Você deverá criar um 'Fork' deste repositório, onde será desenvolvida sua solução. Nele, cada commit submetido deverá passar por um sistema de integração contínua, realizando os seguintes estágios:
+* **Travis CI**: Para a integração contínua, foi utilizada a ferramenta Travis. Ela realiza a execução dos testes e a checagem das builds, tanto do backend quanto do frontend.
 
-- Build: Construção completa do ambiente;
-- Testes: Os testes automatizados da aplicação devem ser executados;
-- Coleta de métricas: Deverá ser realizada a integração com algum serviço externo de coleta de métricas de qualidade;
+* **Sonar**: A qualidade do código está sendo medida por meio da ferramenta Sonar, que a cada commit faz a coleta de novas métricas no código.
 
-O sistema de integração contínua deve exibir as informações de cada pipeline, e impedir que trechos de código que não passem corretamente por todo o processo sejam adicionados à 'branch default' do repositório.
+## Para executar os testes
 
-Para esta parte do trabalho, poderá ser utilizada qualquer tecnologia ou ferramenta que o aluno desejar, como GitlabCI, TravisCI, CircleCI, Jenkins, CodeClimate, entre outras.
+Primeiramente execute a build da rede `$ docker-compose up --build -d` . 
 
-### 3. Deploy contínuo (Extra)
+Posteriormente execute os testes:
 
-Caso cumpra todos os requisitos descritos acima, será atribuída uma pontuação extra para o aluno que configure sua pipeline de modo a publicar a aplicação automaticamente, sempre que um novo trecho de código seja integrado à branch default.
+* FrontEnd: `$ docker-compose run --rm client yarn run test:unit`
+
+* BackEnd: 
+    `$ docker-compose run --rm api bundle exec rails db:create` 
+    
+    `$ docker-compose run --rm api bundle exec rails db:migrate`
+    
+    `$ docker-compose run --rm api bundle exec rails db:seed`
+    
+    `$ docker-compose run --rm api bundle exec rails test `
+
+## Para executar
+
+* No diretório base do projeto, execute: `$ docker-compose up`
+
+Ao término da build, as aplicações estarão disponiveis nos endpoints:
+
+* FrontEnd: http://localhost:8080/
+
+* BackEnd: http://localhost:3000/
