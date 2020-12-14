@@ -5,7 +5,9 @@ services:
 
 stages:
   - build
-  - test
+  - client_test
+  - api_test
+  - sonar_analysis
 
 env:
   DOCKER_COMPOSE_VERSION: 1.27.4
@@ -18,17 +20,26 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 jobs:
+
   - stage: build
   - script: 
     - docker-compose up -d --build 
 
-  - stage: test
+  - stage: client_test
   - script: 
     - docker-compose run --rm client yarn 
-    - docker-compose run --rm client yarn run test:unit
+    - docker-compose run --rm client yarn run test:unit --coverage
+  
+  - stage: api_test
   - script: 
-    - docker-compose run --rm api bundle exec bundle install 
     - docker-compose run --rm api bundle exec rails db:create 
     - docker-compose run --rm api bundle exec rails db:migrate
     - docker-compose run --rm api bundle exec rails db:seed
     - docker-compose run --rm api bundle exec rails test
+
+  - stage: sonar_analysis
+    addons:
+      sonarcloud:
+        organization: "matheus456"
+    script:
+      - sonar-scanner
